@@ -59,9 +59,9 @@ py antigravity_index_recover.py backup
 py antigravity_index_recover.py rebuild --apply
 ```
 
-> The Node script was validated against a real recovery (68 conversations,
-> Antigravity 2026-09). The Python port implements identical logic but has seen
-> less mileage — run `check` once after installing it.
+> Both implementations were validated against a real recovery (68
+> conversations restored, Antigravity 2026-09): `check`, `backup` and
+> `rebuild --apply` all confirmed end-to-end with identical results.
 
 Requires Node.js ≥ 22.5 (for the built-in `node:sqlite` module; on Node 22.x
 prefix with `--experimental-sqlite` if needed), or Python 3.8+ for the port.

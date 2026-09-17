@@ -311,7 +311,9 @@ def read_state_mirrors():
                 if not row:
                     continue
                 try:
-                    blob = base64.b64decode(re.sub(r"\s+", "", str(row[0])), validate=False)
+                    raw = row[0]
+                    raw = raw.decode("latin-1") if isinstance(raw, (bytes, bytearray)) else str(raw)
+                    blob = base64.b64decode(re.sub(r"\s+", "", raw), validate=False)
                     top = decode_fields(blob)
                 except Exception:
                     continue
@@ -577,7 +579,7 @@ def cmd_rebuild(args):
         seen.add(eid)
         if eid not in new_ids or True:  # app-written entries always win
             kept.append(entry)
-    body = b"".join(kept) + b"".join(build_entry(r) for r in sorted(records, key=lambda r: r["updated"][0]) if r["id"] not in seen)
+    body = b"".join(enc_msg(1, e) for e in kept) + b"".join(build_entry(r) for r in sorted(records, key=lambda r: r["updated"][0]) if r["id"] not in seen)
     data = body
 
     # verify
